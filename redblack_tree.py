@@ -1,30 +1,26 @@
-def get_parent(root, node):
-    if root is None or root == node:
-        return None
-    if node.value < root.value:
-        if root.left == node:
-            return root
+class Node:
+    def __init__(self, value):
+        self.color = None
+        self.right = None
+        self.left = None
+        self.value = value
+        self.parent = None
+
+
+def get_parent(r, node):
+    parent = None
+    x = r
+
+    while x is not None:
+        parent = x
+        if node.value < x.value:
+            x = x.left
         else:
-            return get_parent(root.left, node)
-
-    if node.value > root.value:
-        if root.right == node:
-            return node
-        else:
-            return get_parent(root.right, node)
-    else:
-        return None
+            x = x.right
+    return parent
 
 
-def insert_into_RBT(root, key):
-    class Node:
-        def __init__(self, value):
-            self.color = None
-            self.right = None
-            self.left = None
-            self.value = value
-            self.parent = None
-
+def insert_into_RBT(r, key):
     def rotation(x, y):  # x is the older .if sending child and parent .then x is the parent and y is the child
         z = x.get_parent
         if z.value > y:
@@ -69,16 +65,53 @@ def insert_into_RBT(root, key):
                     n.parent = "black"
                     n.parent.parent = "red"
                     rotation(n.parent.parent, n.parent)
-        root.color = "black"
+        r.color = "black"
 
     new_node = Node(key)
-    new_node.parent = get_parent(root, new_node)
-    parent = get_parent(root, new_node)
+    new_node.parent = get_parent(r, new_node)
+    parent = get_parent(r, new_node)
     if parent is None:
-        root = new_node
-    elif parent.value < new_node:
+        r = new_node
+    elif parent.value < new_node.value:
         parent.right = new_node
     else:
         parent.left = new_node
     fix_insert(new_node)
-    return root
+    return r
+
+
+from collections import deque
+
+
+def print_red_black_tree(r):
+    if r is None:
+        return
+
+    # Create a queue to store nodes in level order
+    queue = deque()
+    queue.append(r)
+
+    while len(queue) > 0:
+        # Get the next node in the queue
+        node = queue.popleft()
+
+        # Print the node's key and color
+        print(node.value, node.color)
+
+        # Add the node's children to the queue
+        if node.left is not None:
+            queue.append(node.left)
+        if node.right is not None:
+            queue.append(node.right)
+
+
+r = None
+r = insert_into_RBT(r, 2)
+r = insert_into_RBT(r, 1)
+r = insert_into_RBT(r, 4)
+r = insert_into_RBT(r, 5)
+r = insert_into_RBT(r, 9)
+r = insert_into_RBT(r, 3)
+r = insert_into_RBT(r, 6)
+r = insert_into_RBT(r, 7)
+print_red_black_tree(r)

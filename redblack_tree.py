@@ -82,3 +82,4 @@ def insert_into_RBT(root, key):
         parent.left = new_node
     fix_insert(new_node)
     return root
+get_parent()

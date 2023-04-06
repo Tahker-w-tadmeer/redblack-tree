@@ -85,12 +85,16 @@ def insert_into_RBT(r, key):
         z = x.get_parent
         if z.value > y:
             z.left = y
+            y.parent=z
         else:
             z.right = y
+            y.parent = z
         if y.value > x.value:
             y.left = x
+            x.parent=y
         if y.value < x.value:
             y.right = x
+            x.parent = y
 
     # function for case 1
     def change_color_up(node, uncle):
@@ -100,7 +104,7 @@ def insert_into_RBT(r, key):
         return node.parent.parent
 
     def fix_insert(n):
-        while n.parent is not None and n.parent.color == "red":
+        while n.parent  and n.parent.color == "red":
             if n.parent is n.parent.parent.left:
                 uncle = n.parent.parent.right
                 if uncle.color == "red" and uncle is not None:
@@ -146,6 +150,9 @@ def insert_into_RBT(r, key):
         parent.right = new_node
     else:
         parent.left = new_node
+    if(parent):
+
+        print(new_node.parent.value)
     fix_insert(new_node)
     return r
 

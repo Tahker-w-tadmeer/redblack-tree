@@ -14,7 +14,23 @@ def get_parent(root, node):
             return get_parent(root.right, node)
     else:
         return None
+def height(node):
+    if node is None:
+        return 0
+    else:
+        max_left = height(node.left)
+        max_right = height(node.right)
+        return max(max_left, max_right) + 1
 
+def size(self, node):
+    if node is None:
+        return 0
+    else:
+        return 1 + self.size(node.left) + self.size(node.right)
+
+def print_size(self):
+     size = self.size(self.root)
+     print(size)
 
 def insert_into_RBT(root, key):
     class Node:
@@ -82,4 +98,3 @@ def insert_into_RBT(root, key):
         parent.left = new_node
     fix_insert(new_node)
     return root
-get_parent()

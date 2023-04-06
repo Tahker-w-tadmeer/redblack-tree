@@ -1,23 +1,62 @@
-class Node:
+class Printable:
+    def display(self):
+        lines, *_ = self._display_aux()
+        for line in lines:
+            print(line)
+
+    def _display_aux(self):
+        """Returns list of strings, width, height, and horizontal coordinate of the root."""
+        # No child.
+        if self.right is None and self.left is None:
+            line = '%s' % (self.value + " " + ("B" if self.color == "black" else "R"))
+            width = len(line)
+            height = 1
+            middle = width // 2
+            return [line], width, height, middle
+
+        # Only left child.
+        if self.right is None:
+            lines, n, p, x = self.left._display_aux()
+            s = '%s' % (self.value + " " + ("B" if self.color == "black" else "R"))
+            u = len(s)
+            first_line = (x + 1) * ' ' + (n - x - 1) * '_' + s
+            second_line = x * ' ' + '/' + (n - x - 1 + u) * ' '
+            shifted_lines = [line + u * ' ' for line in lines]
+            return [first_line, second_line] + shifted_lines, n + u, p + 2, n + u // 2
+
+        # Only right child.
+        if self.left is None:
+            lines, n, p, x = self.right._display_aux()
+            s = '%s' % (self.value + " " + ("B" if self.color == "black" else "R"))
+            u = len(s)
+            first_line = s + x * '_' + (n - x) * ' '
+            second_line = (u + x) * ' ' + '\\' + (n - x - 1) * ' '
+            shifted_lines = [u * ' ' + line for line in lines]
+            return [first_line, second_line] + shifted_lines, n + u, p + 2, u // 2
+
+        # Two children.
+        left, n, p, x = self.left._display_aux()
+        right, m, q, y = self.right._display_aux()
+        s = '%s' % (self.value + " " + ("B" if self.color == "black" else "R"))
+        u = len(s)
+        first_line = (x + 1) * ' ' + (n - x - 1) * '_' + s + y * '_' + (m - y) * ' '
+        second_line = x * ' ' + '/' + (n - x - 1 + u + y) * ' ' + '\\' + (m - y - 1) * ' '
+        if p < q:
+            left += [n * ' '] * (q - p)
+        elif q < p:
+            right += [m * ' '] * (p - q)
+        zipped_lines = zip(left, right)
+        lines = [first_line, second_line] + [a + u * ' ' + b for a, b in zipped_lines]
+        return lines, n + m + u, max(p, q) + 2, n + u // 2
+
+
+class Node(Printable):
     def __init__(self, value):
         self.color = None
         self.right = None
         self.left = None
         self.value = value
         self.parent = None
-
-
-def get_parent(r, node):
-    parent = None
-    x = r
-
-    while x is not None:
-        parent = x
-        if node.value < x.value:
-            x = x.left
-        else:
-            x = x.right
-    return parent
 
 
 def height(node):
@@ -89,8 +128,18 @@ def insert_into_RBT(r, key):
         r.color = "black"
 
     new_node = Node(key)
-    new_node.parent = get_parent(r, new_node)
-    parent = get_parent(r, new_node)
+    parent = None
+    x = r
+
+    while x is not None:
+        parent = x
+        if new_node.value < x.value:
+            x = x.left
+        else:
+            x = x.right
+
+    new_node.parent = parent
+
     if parent is None:
         r = new_node
     elif parent.value < new_node.value:
@@ -101,38 +150,13 @@ def insert_into_RBT(r, key):
     return r
 
 
-from collections import deque
-
-
-def print_red_black_tree(r):
-    if r is None:
-        return
-
-    # Create a queue to store nodes in level order
-    queue = deque()
-    queue.append(r)
-
-    while len(queue) > 0:
-        # Get the next node in the queue
-        node = queue.popleft()
-
-        # Print the node's key and color
-        print(node.value, node.color)
-
-        # Add the node's children to the queue
-        if node.left is not None:
-            queue.append(node.left)
-        if node.right is not None:
-            queue.append(node.right)
-
-
 r = None
-r = insert_into_RBT(r, 2)
-r = insert_into_RBT(r, 1)
-r = insert_into_RBT(r, 4)
-r = insert_into_RBT(r, 5)
-r = insert_into_RBT(r, 9)
-r = insert_into_RBT(r, 3)
-r = insert_into_RBT(r, 6)
-r = insert_into_RBT(r, 7)
-print_red_black_tree(r)
+r = insert_into_RBT(r, "2")
+r = insert_into_RBT(r, "1")
+r = insert_into_RBT(r, "4")
+r = insert_into_RBT(r, "5")
+r = insert_into_RBT(r, "9")
+r = insert_into_RBT(r, "3")
+r = insert_into_RBT(r, "6")
+r = insert_into_RBT(r, "7")
+r.display()

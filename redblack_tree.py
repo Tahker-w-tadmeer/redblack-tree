@@ -7,7 +7,6 @@ class Node:
         self.parent = None
 
 
-
 def get_parent(r, node):
     parent = None
     x = r
@@ -20,13 +19,7 @@ def get_parent(r, node):
             x = x.right
     return parent
 
-    if node.value > root.value:
-        if root.right == node:
-            return node
-        else:
-            return get_parent(root.right, node)
-    else:
-        return None
+
 def height(node):
     if node is None:
         return 0
@@ -35,16 +28,17 @@ def height(node):
         max_right = height(node.right)
         return max(max_left, max_right) + 1
 
+
 def size(self, node):
     if node is None:
         return 0
     else:
         return 1 + self.size(node.left) + self.size(node.right)
 
-def print_size(self):
-     size = self.size(self.root)
-     print(size)
 
+def print_size(self):
+    size = self.size(self.root)
+    print(size)
 
 
 def insert_into_RBT(r, key):

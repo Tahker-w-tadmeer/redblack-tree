@@ -8,3 +8,4 @@ def read_dic(filename):
     root = None
     for line in lines:
         root = redblack_tree.insert_into_RBT(root, line)
+

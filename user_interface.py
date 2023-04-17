@@ -24,11 +24,12 @@ def show_add_mssg(tree):
         msgbox.showinfo("add result", "word not added\n the word is already in the dictionary")
 
     else:
-        msgbox.showinfo("add result", "the word is added\n the height of the tree is: "+"\n the size of the tree is: ")
+        msgbox.showinfo("add result", "the word is added\n the height of the tree is: "+str(tree.print_height())+"\n the size of the tree is: "+str(tree.print_size()))
+tree = dic.init_dic()
+msgbox.showinfo("size and height of dictionary", "the height of the tree is: "+str(tree.print_height())+"\n the size of the tree is: "+str(tree.print_size()) )
 window = tk.Tk()
 window.title("gramarly el ghalaba")
 window.geometry("500x200")
-tree = dic.init_dic()
 label = tk.Label(window, text="search for a word:")
 label.pack()
 

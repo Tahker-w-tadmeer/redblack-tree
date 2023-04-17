@@ -1,6 +1,3 @@
-import new_rbt
-
-
 class Printable:
     def display(self):
         lines, *_ = self._display_aux()

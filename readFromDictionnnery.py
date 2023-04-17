@@ -36,7 +36,8 @@ def print_height(dict):
 #####################################################################
 
 # y = input("enter Dictionary name: ")
-# Dictionary = read_dic(y)
+# Dictionary =init_dic()
+# print(Dictionary.search("field\n"))
 # print("Dictionary loaded successfully!")
 # print("size of dictionary before loaded: ")
 # print_dict_size(Dictionary)

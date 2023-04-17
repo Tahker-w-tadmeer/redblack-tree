@@ -181,10 +181,12 @@ class Red_BLack_Tree:
     def print_height(self):
         size = self.height(self.root)
         print(size)
+        return size
 
     def print_size(self):
         size = self.size(self.root)
         print(size)
+        return size
 
     def search(self, value):
         n = self.root

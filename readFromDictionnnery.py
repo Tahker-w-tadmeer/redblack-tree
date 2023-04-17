@@ -2,7 +2,7 @@ import new_rbt as redblack_tree
 
 
 def init_dic():
-    file = open("dictionary.txt", 'r')
+    file = open("EN-US-Dictionary.txt", 'r')
     lines = file.readlines()
     file.close()
     tree = redblack_tree.Red_BLack_Tree()
